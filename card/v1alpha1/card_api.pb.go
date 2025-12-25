@@ -22,6 +22,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// DealRequest define request schema of Deal API
 type DealRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -58,9 +59,11 @@ func (*DealRequest) Descriptor() ([]byte, []int) {
 	return file_card_v1alpha1_card_api_proto_rawDescGZIP(), []int{0}
 }
 
+// DealResponse define response schema of Deal API
 type DealResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Card          *Card                  `protobuf:"bytes,1,opt,name=card,proto3" json:"card,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// card entity of card
+	Card          *Card `protobuf:"bytes,1,opt,name=card,proto3" json:"card,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -102,8 +105,10 @@ func (x *DealResponse) GetCard() *Card {
 	return nil
 }
 
+// PingRequest define request schema of Ping API
 type PingRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// now is the timestamp when the request is sent
 	Now           *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=now,proto3" json:"now,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -146,6 +151,7 @@ func (x *PingRequest) GetNow() *timestamppb.Timestamp {
 	return nil
 }
 
+// PingResponse define response schema of Ping API
 type PingResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -192,8 +198,8 @@ const file_card_v1alpha1_card_api_proto_rawDesc = "" +
 	"\x04card\x18\x01 \x01(\v2\x13.card.v1alpha1.CardR\x04card\";\n" +
 	"\vPingRequest\x12,\n" +
 	"\x03now\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\x03now\"\x0e\n" +
-	"\fPingResponse2\x8b\x01\n" +
-	"\aCardAPI\x12?\n" +
+	"\fPingResponse2\x8f\x01\n" +
+	"\vCardService\x12?\n" +
 	"\x04Deal\x12\x1a.card.v1alpha1.DealRequest\x1a\x1b.card.v1alpha1.DealResponse\x12?\n" +
 	"\x04Ping\x12\x1a.card.v1alpha1.PingRequest\x1a\x1b.card.v1alpha1.PingResponseB.Z,github.com/openpoker-dev/gengo/card/v1alpha1b\x06proto3"
 
@@ -221,10 +227,10 @@ var file_card_v1alpha1_card_api_proto_goTypes = []any{
 var file_card_v1alpha1_card_api_proto_depIdxs = []int32{
 	4, // 0: card.v1alpha1.DealResponse.card:type_name -> card.v1alpha1.Card
 	5, // 1: card.v1alpha1.PingRequest.now:type_name -> google.protobuf.Timestamp
-	0, // 2: card.v1alpha1.CardAPI.Deal:input_type -> card.v1alpha1.DealRequest
-	2, // 3: card.v1alpha1.CardAPI.Ping:input_type -> card.v1alpha1.PingRequest
-	1, // 4: card.v1alpha1.CardAPI.Deal:output_type -> card.v1alpha1.DealResponse
-	3, // 5: card.v1alpha1.CardAPI.Ping:output_type -> card.v1alpha1.PingResponse
+	0, // 2: card.v1alpha1.CardService.Deal:input_type -> card.v1alpha1.DealRequest
+	2, // 3: card.v1alpha1.CardService.Ping:input_type -> card.v1alpha1.PingRequest
+	1, // 4: card.v1alpha1.CardService.Deal:output_type -> card.v1alpha1.DealResponse
+	3, // 5: card.v1alpha1.CardService.Ping:output_type -> card.v1alpha1.PingResponse
 	4, // [4:6] is the sub-list for method output_type
 	2, // [2:4] is the sub-list for method input_type
 	2, // [2:2] is the sub-list for extension type_name

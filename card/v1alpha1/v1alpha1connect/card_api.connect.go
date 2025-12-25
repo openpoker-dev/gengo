@@ -21,8 +21,8 @@ import (
 const _ = connect.IsAtLeastVersion1_13_0
 
 const (
-	// CardAPIName is the fully-qualified name of the CardAPI service.
-	CardAPIName = "card.v1alpha1.CardAPI"
+	// CardServiceName is the fully-qualified name of the CardService service.
+	CardServiceName = "card.v1alpha1.CardService"
 )
 
 // These constants are the fully-qualified names of the RPCs defined in this package. They're
@@ -33,52 +33,54 @@ const (
 // reflection-formatted method names, remove the leading slash and convert the remaining slash to a
 // period.
 const (
-	// CardAPIDealProcedure is the fully-qualified name of the CardAPI's Deal RPC.
-	CardAPIDealProcedure = "/card.v1alpha1.CardAPI/Deal"
-	// CardAPIPingProcedure is the fully-qualified name of the CardAPI's Ping RPC.
-	CardAPIPingProcedure = "/card.v1alpha1.CardAPI/Ping"
+	// CardServiceDealProcedure is the fully-qualified name of the CardService's Deal RPC.
+	CardServiceDealProcedure = "/card.v1alpha1.CardService/Deal"
+	// CardServicePingProcedure is the fully-qualified name of the CardService's Ping RPC.
+	CardServicePingProcedure = "/card.v1alpha1.CardService/Ping"
 )
 
-// CardAPIClient is a client for the card.v1alpha1.CardAPI service.
-type CardAPIClient interface {
+// CardServiceClient is a client for the card.v1alpha1.CardService service.
+type CardServiceClient interface {
+	// Deal
 	Deal(context.Context, *v1alpha1.DealRequest) (*v1alpha1.DealResponse, error)
+	// Ping heartbeat
 	Ping(context.Context, *v1alpha1.PingRequest) (*v1alpha1.PingResponse, error)
 }
 
-// NewCardAPIClient constructs a client for the card.v1alpha1.CardAPI service. By default, it uses
-// the Connect protocol with the binary Protobuf Codec, asks for gzipped responses, and sends
-// uncompressed requests. To use the gRPC or gRPC-Web protocols, supply the connect.WithGRPC() or
-// connect.WithGRPCWeb() options.
+// NewCardServiceClient constructs a client for the card.v1alpha1.CardService service. By default,
+// it uses the Connect protocol with the binary Protobuf Codec, asks for gzipped responses, and
+// sends uncompressed requests. To use the gRPC or gRPC-Web protocols, supply the connect.WithGRPC()
+// or connect.WithGRPCWeb() options.
 //
 // The URL supplied here should be the base URL for the Connect or gRPC server (for example,
 // http://api.acme.com or https://acme.com/grpc).
-func NewCardAPIClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) CardAPIClient {
+func NewCardServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) CardServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
-	cardAPIMethods := v1alpha1.File_card_v1alpha1_card_api_proto.Services().ByName("CardAPI").Methods()
-	return &cardAPIClient{
+	cardServiceMethods := v1alpha1.File_card_v1alpha1_card_api_proto.Services().ByName("CardService").Methods()
+	return &cardServiceClient{
 		deal: connect.NewClient[v1alpha1.DealRequest, v1alpha1.DealResponse](
 			httpClient,
-			baseURL+CardAPIDealProcedure,
-			connect.WithSchema(cardAPIMethods.ByName("Deal")),
+			baseURL+CardServiceDealProcedure,
+			connect.WithSchema(cardServiceMethods.ByName("Deal")),
 			connect.WithClientOptions(opts...),
 		),
 		ping: connect.NewClient[v1alpha1.PingRequest, v1alpha1.PingResponse](
 			httpClient,
-			baseURL+CardAPIPingProcedure,
-			connect.WithSchema(cardAPIMethods.ByName("Ping")),
+			baseURL+CardServicePingProcedure,
+			connect.WithSchema(cardServiceMethods.ByName("Ping")),
 			connect.WithClientOptions(opts...),
 		),
 	}
 }
 
-// cardAPIClient implements CardAPIClient.
-type cardAPIClient struct {
+// cardServiceClient implements CardServiceClient.
+type cardServiceClient struct {
 	deal *connect.Client[v1alpha1.DealRequest, v1alpha1.DealResponse]
 	ping *connect.Client[v1alpha1.PingRequest, v1alpha1.PingResponse]
 }
 
-// Deal calls card.v1alpha1.CardAPI.Deal.
-func (c *cardAPIClient) Deal(ctx context.Context, req *v1alpha1.DealRequest) (*v1alpha1.DealResponse, error) {
+// Deal calls card.v1alpha1.CardService.Deal.
+func (c *cardServiceClient) Deal(ctx context.Context, req *v1alpha1.DealRequest) (*v1alpha1.DealResponse, error) {
 	response, err := c.deal.CallUnary(ctx, connect.NewRequest(req))
 	if response != nil {
 		return response.Msg, err
@@ -86,8 +88,8 @@ func (c *cardAPIClient) Deal(ctx context.Context, req *v1alpha1.DealRequest) (*v
 	return nil, err
 }
 
-// Ping calls card.v1alpha1.CardAPI.Ping.
-func (c *cardAPIClient) Ping(ctx context.Context, req *v1alpha1.PingRequest) (*v1alpha1.PingResponse, error) {
+// Ping calls card.v1alpha1.CardService.Ping.
+func (c *cardServiceClient) Ping(ctx context.Context, req *v1alpha1.PingRequest) (*v1alpha1.PingResponse, error) {
 	response, err := c.ping.CallUnary(ctx, connect.NewRequest(req))
 	if response != nil {
 		return response.Msg, err
@@ -95,50 +97,52 @@ func (c *cardAPIClient) Ping(ctx context.Context, req *v1alpha1.PingRequest) (*v
 	return nil, err
 }
 
-// CardAPIHandler is an implementation of the card.v1alpha1.CardAPI service.
-type CardAPIHandler interface {
+// CardServiceHandler is an implementation of the card.v1alpha1.CardService service.
+type CardServiceHandler interface {
+	// Deal
 	Deal(context.Context, *v1alpha1.DealRequest) (*v1alpha1.DealResponse, error)
+	// Ping heartbeat
 	Ping(context.Context, *v1alpha1.PingRequest) (*v1alpha1.PingResponse, error)
 }
 
-// NewCardAPIHandler builds an HTTP handler from the service implementation. It returns the path on
-// which to mount the handler and the handler itself.
+// NewCardServiceHandler builds an HTTP handler from the service implementation. It returns the path
+// on which to mount the handler and the handler itself.
 //
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
-func NewCardAPIHandler(svc CardAPIHandler, opts ...connect.HandlerOption) (string, http.Handler) {
-	cardAPIMethods := v1alpha1.File_card_v1alpha1_card_api_proto.Services().ByName("CardAPI").Methods()
-	cardAPIDealHandler := connect.NewUnaryHandlerSimple(
-		CardAPIDealProcedure,
+func NewCardServiceHandler(svc CardServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
+	cardServiceMethods := v1alpha1.File_card_v1alpha1_card_api_proto.Services().ByName("CardService").Methods()
+	cardServiceDealHandler := connect.NewUnaryHandlerSimple(
+		CardServiceDealProcedure,
 		svc.Deal,
-		connect.WithSchema(cardAPIMethods.ByName("Deal")),
+		connect.WithSchema(cardServiceMethods.ByName("Deal")),
 		connect.WithHandlerOptions(opts...),
 	)
-	cardAPIPingHandler := connect.NewUnaryHandlerSimple(
-		CardAPIPingProcedure,
+	cardServicePingHandler := connect.NewUnaryHandlerSimple(
+		CardServicePingProcedure,
 		svc.Ping,
-		connect.WithSchema(cardAPIMethods.ByName("Ping")),
+		connect.WithSchema(cardServiceMethods.ByName("Ping")),
 		connect.WithHandlerOptions(opts...),
 	)
-	return "/card.v1alpha1.CardAPI/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	return "/card.v1alpha1.CardService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
-		case CardAPIDealProcedure:
-			cardAPIDealHandler.ServeHTTP(w, r)
-		case CardAPIPingProcedure:
-			cardAPIPingHandler.ServeHTTP(w, r)
+		case CardServiceDealProcedure:
+			cardServiceDealHandler.ServeHTTP(w, r)
+		case CardServicePingProcedure:
+			cardServicePingHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
 	})
 }
 
-// UnimplementedCardAPIHandler returns CodeUnimplemented from all methods.
-type UnimplementedCardAPIHandler struct{}
+// UnimplementedCardServiceHandler returns CodeUnimplemented from all methods.
+type UnimplementedCardServiceHandler struct{}
 
-func (UnimplementedCardAPIHandler) Deal(context.Context, *v1alpha1.DealRequest) (*v1alpha1.DealResponse, error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("card.v1alpha1.CardAPI.Deal is not implemented"))
+func (UnimplementedCardServiceHandler) Deal(context.Context, *v1alpha1.DealRequest) (*v1alpha1.DealResponse, error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("card.v1alpha1.CardService.Deal is not implemented"))
 }
 
-func (UnimplementedCardAPIHandler) Ping(context.Context, *v1alpha1.PingRequest) (*v1alpha1.PingResponse, error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("card.v1alpha1.CardAPI.Ping is not implemented"))
+func (UnimplementedCardServiceHandler) Ping(context.Context, *v1alpha1.PingRequest) (*v1alpha1.PingResponse, error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("card.v1alpha1.CardService.Ping is not implemented"))
 }

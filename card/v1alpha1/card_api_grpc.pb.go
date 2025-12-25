@@ -19,137 +19,145 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	CardAPI_Deal_FullMethodName = "/card.v1alpha1.CardAPI/Deal"
-	CardAPI_Ping_FullMethodName = "/card.v1alpha1.CardAPI/Ping"
+	CardService_Deal_FullMethodName = "/card.v1alpha1.CardService/Deal"
+	CardService_Ping_FullMethodName = "/card.v1alpha1.CardService/Ping"
 )
 
-// CardAPIClient is the client API for CardAPI service.
+// CardServiceClient is the client API for CardService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type CardAPIClient interface {
+//
+// CardService defins apis of CardService
+type CardServiceClient interface {
+	// Deal
 	Deal(ctx context.Context, in *DealRequest, opts ...grpc.CallOption) (*DealResponse, error)
+	// Ping heartbeat
 	Ping(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingResponse, error)
 }
 
-type cardAPIClient struct {
+type cardServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewCardAPIClient(cc grpc.ClientConnInterface) CardAPIClient {
-	return &cardAPIClient{cc}
+func NewCardServiceClient(cc grpc.ClientConnInterface) CardServiceClient {
+	return &cardServiceClient{cc}
 }
 
-func (c *cardAPIClient) Deal(ctx context.Context, in *DealRequest, opts ...grpc.CallOption) (*DealResponse, error) {
+func (c *cardServiceClient) Deal(ctx context.Context, in *DealRequest, opts ...grpc.CallOption) (*DealResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DealResponse)
-	err := c.cc.Invoke(ctx, CardAPI_Deal_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, CardService_Deal_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *cardAPIClient) Ping(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingResponse, error) {
+func (c *cardServiceClient) Ping(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(PingResponse)
-	err := c.cc.Invoke(ctx, CardAPI_Ping_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, CardService_Ping_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// CardAPIServer is the server API for CardAPI service.
-// All implementations should embed UnimplementedCardAPIServer
+// CardServiceServer is the server API for CardService service.
+// All implementations should embed UnimplementedCardServiceServer
 // for forward compatibility.
-type CardAPIServer interface {
+//
+// CardService defins apis of CardService
+type CardServiceServer interface {
+	// Deal
 	Deal(context.Context, *DealRequest) (*DealResponse, error)
+	// Ping heartbeat
 	Ping(context.Context, *PingRequest) (*PingResponse, error)
 }
 
-// UnimplementedCardAPIServer should be embedded to have
+// UnimplementedCardServiceServer should be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
 // pointer dereference when methods are called.
-type UnimplementedCardAPIServer struct{}
+type UnimplementedCardServiceServer struct{}
 
-func (UnimplementedCardAPIServer) Deal(context.Context, *DealRequest) (*DealResponse, error) {
+func (UnimplementedCardServiceServer) Deal(context.Context, *DealRequest) (*DealResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method Deal not implemented")
 }
-func (UnimplementedCardAPIServer) Ping(context.Context, *PingRequest) (*PingResponse, error) {
+func (UnimplementedCardServiceServer) Ping(context.Context, *PingRequest) (*PingResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method Ping not implemented")
 }
-func (UnimplementedCardAPIServer) testEmbeddedByValue() {}
+func (UnimplementedCardServiceServer) testEmbeddedByValue() {}
 
-// UnsafeCardAPIServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to CardAPIServer will
+// UnsafeCardServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to CardServiceServer will
 // result in compilation errors.
-type UnsafeCardAPIServer interface {
-	mustEmbedUnimplementedCardAPIServer()
+type UnsafeCardServiceServer interface {
+	mustEmbedUnimplementedCardServiceServer()
 }
 
-func RegisterCardAPIServer(s grpc.ServiceRegistrar, srv CardAPIServer) {
-	// If the following call panics, it indicates UnimplementedCardAPIServer was
+func RegisterCardServiceServer(s grpc.ServiceRegistrar, srv CardServiceServer) {
+	// If the following call panics, it indicates UnimplementedCardServiceServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization
 	// time to prevent it from happening at runtime later due to I/O.
 	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
 		t.testEmbeddedByValue()
 	}
-	s.RegisterService(&CardAPI_ServiceDesc, srv)
+	s.RegisterService(&CardService_ServiceDesc, srv)
 }
 
-func _CardAPI_Deal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _CardService_Deal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DealRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CardAPIServer).Deal(ctx, in)
+		return srv.(CardServiceServer).Deal(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: CardAPI_Deal_FullMethodName,
+		FullMethod: CardService_Deal_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CardAPIServer).Deal(ctx, req.(*DealRequest))
+		return srv.(CardServiceServer).Deal(ctx, req.(*DealRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CardAPI_Ping_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _CardService_Ping_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(PingRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CardAPIServer).Ping(ctx, in)
+		return srv.(CardServiceServer).Ping(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: CardAPI_Ping_FullMethodName,
+		FullMethod: CardService_Ping_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CardAPIServer).Ping(ctx, req.(*PingRequest))
+		return srv.(CardServiceServer).Ping(ctx, req.(*PingRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// CardAPI_ServiceDesc is the grpc.ServiceDesc for CardAPI service.
+// CardService_ServiceDesc is the grpc.ServiceDesc for CardService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var CardAPI_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "card.v1alpha1.CardAPI",
-	HandlerType: (*CardAPIServer)(nil),
+var CardService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "card.v1alpha1.CardService",
+	HandlerType: (*CardServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "Deal",
-			Handler:    _CardAPI_Deal_Handler,
+			Handler:    _CardService_Deal_Handler,
 		},
 		{
 			MethodName: "Ping",
-			Handler:    _CardAPI_Ping_Handler,
+			Handler:    _CardService_Ping_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
