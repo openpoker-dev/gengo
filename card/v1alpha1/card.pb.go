@@ -187,6 +187,156 @@ func (Suit) EnumDescriptor() ([]byte, []int) {
 	return file_card_v1alpha1_card_proto_rawDescGZIP(), []int{1}
 }
 
+// Round represents the round of a poker game.
+type Round int32
+
+const (
+	// ROUND_UNSPECIFIED represents an unspecified round.
+	Round_ROUND_UNSPECIFIED Round = 0
+	// ROUND_PRE_FLOP represents the pre-flop round.
+	Round_ROUND_PRE_FLOP Round = 1
+	// ROUND_FLOP represents the flop round.
+	Round_ROUND_FLOP Round = 2
+	// ROUND_TURN represents the turn round.
+	Round_ROUND_TURN Round = 3
+	// ROUND_RIVER represents the river round.
+	Round_ROUND_RIVER Round = 4
+	// ROUND_SHOWDOWN represents the showdown round.
+	Round_ROUND_SHOWDOWN Round = 5
+)
+
+// Enum value maps for Round.
+var (
+	Round_name = map[int32]string{
+		0: "ROUND_UNSPECIFIED",
+		1: "ROUND_PRE_FLOP",
+		2: "ROUND_FLOP",
+		3: "ROUND_TURN",
+		4: "ROUND_RIVER",
+		5: "ROUND_SHOWDOWN",
+	}
+	Round_value = map[string]int32{
+		"ROUND_UNSPECIFIED": 0,
+		"ROUND_PRE_FLOP":    1,
+		"ROUND_FLOP":        2,
+		"ROUND_TURN":        3,
+		"ROUND_RIVER":       4,
+		"ROUND_SHOWDOWN":    5,
+	}
+)
+
+func (x Round) Enum() *Round {
+	p := new(Round)
+	*p = x
+	return p
+}
+
+func (x Round) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Round) Descriptor() protoreflect.EnumDescriptor {
+	return file_card_v1alpha1_card_proto_enumTypes[2].Descriptor()
+}
+
+func (Round) Type() protoreflect.EnumType {
+	return &file_card_v1alpha1_card_proto_enumTypes[2]
+}
+
+func (x Round) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Round.Descriptor instead.
+func (Round) EnumDescriptor() ([]byte, []int) {
+	return file_card_v1alpha1_card_proto_rawDescGZIP(), []int{2}
+}
+
+// HandCategory represents the category of a poker hand.
+type HandCategory int32
+
+const (
+	// HAND_CATEGORY_UNSPECIFIED represents an unspecified hand category.
+	HandCategory_HAND_CATEGORY_UNSPECIFIED HandCategory = 0
+	// HAND_CATEGORY_HIGH_CARD represents a high card hand.
+	HandCategory_HAND_CATEGORY_HIGH_CARD HandCategory = 1
+	// HAND_CATEGORY_ONE_PAIR represents a one pair hand.
+	HandCategory_HAND_CATEGORY_ONE_PAIR HandCategory = 2
+	// HAND_CATEGORY_TWO_PAIR represents a two pair hand.
+	HandCategory_HAND_CATEGORY_TWO_PAIR HandCategory = 3
+	// HAND_CATEGORY_THREE_OF_A_KIND represents a three of a kind hand.
+	HandCategory_HAND_CATEGORY_THREE_OF_A_KIND HandCategory = 4
+	// HAND_CATEGORY_STRAIGHT represents a straight hand.
+	HandCategory_HAND_CATEGORY_STRAIGHT HandCategory = 5
+	// HAND_CATEGORY_FLUSH represents a flush hand.
+	HandCategory_HAND_CATEGORY_FLUSH HandCategory = 6
+	// HAND_CATEGORY_FULL_HOUSE represents a full house hand.
+	HandCategory_HAND_CATEGORY_FULL_HOUSE HandCategory = 7
+	// HAND_CATEGORY_FOUR_OF_A_KIND represents a four of a kind hand.
+	HandCategory_HAND_CATEGORY_FOUR_OF_A_KIND HandCategory = 8
+	// HAND_CATEGORY_STRAIGHT_FLUSH represents a straight flush hand.
+	HandCategory_HAND_CATEGORY_STRAIGHT_FLUSH HandCategory = 9
+	// HAND_CATEGORY_ROYAL_FLUSH represents a royal flush hand.
+	HandCategory_HAND_CATEGORY_ROYAL_FLUSH HandCategory = 10
+)
+
+// Enum value maps for HandCategory.
+var (
+	HandCategory_name = map[int32]string{
+		0:  "HAND_CATEGORY_UNSPECIFIED",
+		1:  "HAND_CATEGORY_HIGH_CARD",
+		2:  "HAND_CATEGORY_ONE_PAIR",
+		3:  "HAND_CATEGORY_TWO_PAIR",
+		4:  "HAND_CATEGORY_THREE_OF_A_KIND",
+		5:  "HAND_CATEGORY_STRAIGHT",
+		6:  "HAND_CATEGORY_FLUSH",
+		7:  "HAND_CATEGORY_FULL_HOUSE",
+		8:  "HAND_CATEGORY_FOUR_OF_A_KIND",
+		9:  "HAND_CATEGORY_STRAIGHT_FLUSH",
+		10: "HAND_CATEGORY_ROYAL_FLUSH",
+	}
+	HandCategory_value = map[string]int32{
+		"HAND_CATEGORY_UNSPECIFIED":     0,
+		"HAND_CATEGORY_HIGH_CARD":       1,
+		"HAND_CATEGORY_ONE_PAIR":        2,
+		"HAND_CATEGORY_TWO_PAIR":        3,
+		"HAND_CATEGORY_THREE_OF_A_KIND": 4,
+		"HAND_CATEGORY_STRAIGHT":        5,
+		"HAND_CATEGORY_FLUSH":           6,
+		"HAND_CATEGORY_FULL_HOUSE":      7,
+		"HAND_CATEGORY_FOUR_OF_A_KIND":  8,
+		"HAND_CATEGORY_STRAIGHT_FLUSH":  9,
+		"HAND_CATEGORY_ROYAL_FLUSH":     10,
+	}
+)
+
+func (x HandCategory) Enum() *HandCategory {
+	p := new(HandCategory)
+	*p = x
+	return p
+}
+
+func (x HandCategory) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (HandCategory) Descriptor() protoreflect.EnumDescriptor {
+	return file_card_v1alpha1_card_proto_enumTypes[3].Descriptor()
+}
+
+func (HandCategory) Type() protoreflect.EnumType {
+	return &file_card_v1alpha1_card_proto_enumTypes[3]
+}
+
+func (x HandCategory) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use HandCategory.Descriptor instead.
+func (HandCategory) EnumDescriptor() ([]byte, []int) {
+	return file_card_v1alpha1_card_proto_rawDescGZIP(), []int{3}
+}
+
 // Card represents a playing card.
 type Card struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -278,7 +428,29 @@ const file_card_v1alpha1_card_proto_rawDesc = "" +
 	"\vSUIT_SPADES\x10\x02\x12\x11\n" +
 	"\rSUIT_DIAMONDS\x10\x03\x12\x0e\n" +
 	"\n" +
-	"SUIT_CLUBS\x10\x04B3Z1github.com/openpoker-dev/gengo/card/v1alpha1;cardb\x06proto3"
+	"SUIT_CLUBS\x10\x04*w\n" +
+	"\x05Round\x12\x15\n" +
+	"\x11ROUND_UNSPECIFIED\x10\x00\x12\x12\n" +
+	"\x0eROUND_PRE_FLOP\x10\x01\x12\x0e\n" +
+	"\n" +
+	"ROUND_FLOP\x10\x02\x12\x0e\n" +
+	"\n" +
+	"ROUND_TURN\x10\x03\x12\x0f\n" +
+	"\vROUND_RIVER\x10\x04\x12\x12\n" +
+	"\x0eROUND_SHOWDOWN\x10\x05*\xdb\x02\n" +
+	"\fHandCategory\x12\x1d\n" +
+	"\x19HAND_CATEGORY_UNSPECIFIED\x10\x00\x12\x1b\n" +
+	"\x17HAND_CATEGORY_HIGH_CARD\x10\x01\x12\x1a\n" +
+	"\x16HAND_CATEGORY_ONE_PAIR\x10\x02\x12\x1a\n" +
+	"\x16HAND_CATEGORY_TWO_PAIR\x10\x03\x12!\n" +
+	"\x1dHAND_CATEGORY_THREE_OF_A_KIND\x10\x04\x12\x1a\n" +
+	"\x16HAND_CATEGORY_STRAIGHT\x10\x05\x12\x17\n" +
+	"\x13HAND_CATEGORY_FLUSH\x10\x06\x12\x1c\n" +
+	"\x18HAND_CATEGORY_FULL_HOUSE\x10\a\x12 \n" +
+	"\x1cHAND_CATEGORY_FOUR_OF_A_KIND\x10\b\x12 \n" +
+	"\x1cHAND_CATEGORY_STRAIGHT_FLUSH\x10\t\x12\x1d\n" +
+	"\x19HAND_CATEGORY_ROYAL_FLUSH\x10\n" +
+	"B3Z1github.com/openpoker-dev/gengo/card/v1alpha1;cardb\x06proto3"
 
 var (
 	file_card_v1alpha1_card_proto_rawDescOnce sync.Once
@@ -292,12 +464,14 @@ func file_card_v1alpha1_card_proto_rawDescGZIP() []byte {
 	return file_card_v1alpha1_card_proto_rawDescData
 }
 
-var file_card_v1alpha1_card_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_card_v1alpha1_card_proto_enumTypes = make([]protoimpl.EnumInfo, 4)
 var file_card_v1alpha1_card_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_card_v1alpha1_card_proto_goTypes = []any{
-	(Rank)(0),    // 0: card.v1alpha1.Rank
-	(Suit)(0),    // 1: card.v1alpha1.Suit
-	(*Card)(nil), // 2: card.v1alpha1.Card
+	(Rank)(0),         // 0: card.v1alpha1.Rank
+	(Suit)(0),         // 1: card.v1alpha1.Suit
+	(Round)(0),        // 2: card.v1alpha1.Round
+	(HandCategory)(0), // 3: card.v1alpha1.HandCategory
+	(*Card)(nil),      // 4: card.v1alpha1.Card
 }
 var file_card_v1alpha1_card_proto_depIdxs = []int32{
 	1, // 0: card.v1alpha1.Card.suit:type_name -> card.v1alpha1.Suit
@@ -319,7 +493,7 @@ func file_card_v1alpha1_card_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_card_v1alpha1_card_proto_rawDesc), len(file_card_v1alpha1_card_proto_rawDesc)),
-			NumEnums:      2,
+			NumEnums:      4,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
