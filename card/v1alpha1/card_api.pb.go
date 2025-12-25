@@ -4,7 +4,7 @@
 // 	protoc        (unknown)
 // source: card/v1alpha1/card_api.proto
 
-package v1alpha1
+package card
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -201,7 +201,7 @@ const file_card_v1alpha1_card_api_proto_rawDesc = "" +
 	"\fPingResponse2\x8f\x01\n" +
 	"\vCardService\x12?\n" +
 	"\x04Deal\x12\x1a.card.v1alpha1.DealRequest\x1a\x1b.card.v1alpha1.DealResponse\x12?\n" +
-	"\x04Ping\x12\x1a.card.v1alpha1.PingRequest\x1a\x1b.card.v1alpha1.PingResponseB.Z,github.com/openpoker-dev/gengo/card/v1alpha1b\x06proto3"
+	"\x04Ping\x12\x1a.card.v1alpha1.PingRequest\x1a\x1b.card.v1alpha1.PingResponseB3Z1github.com/openpoker-dev/gengo/card/v1alpha1;cardb\x06proto3"
 
 var (
 	file_card_v1alpha1_card_api_proto_rawDescOnce sync.Once

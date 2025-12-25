@@ -4,7 +4,7 @@
 // 	protoc        (unknown)
 // source: card/v1alpha1/card.proto
 
-package v1alpha1
+package card
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -21,11 +21,179 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// Rank represents the rank of a playing card.
+type Rank int32
+
+const (
+	// RANK_UNSPECIFIED represents an unspecified rank.
+	Rank_RANK_UNSPECIFIED Rank = 0
+	// RANK_ACE represents an Ace.
+	Rank_RANK_ACE Rank = 1
+	// RANK_TWO represents a 2.
+	Rank_RANK_TWO Rank = 2
+	// RANK_THREE represents a 3.
+	Rank_RANK_THREE Rank = 3
+	// RANK_FOUR represents a 4.
+	Rank_RANK_FOUR Rank = 4
+	// RANK_FIVE represents a 5.
+	Rank_RANK_FIVE Rank = 5
+	// RANK_SIX represents a 6.
+	Rank_RANK_SIX Rank = 6
+	// RANK_SEVEN represents a 7.
+	Rank_RANK_SEVEN Rank = 7
+	// RANK_EIGHT represents an 8.
+	Rank_RANK_EIGHT Rank = 8
+	// RANK_NINE represents a 9.
+	Rank_RANK_NINE Rank = 9
+	// RANK_TEN represents a 10.
+	Rank_RANK_TEN Rank = 10
+	// RANK_JACK represents a Jack.
+	Rank_RANK_JACK Rank = 11
+	// RANK_QUEEN represents a Queen.
+	Rank_RANK_QUEEN Rank = 12
+	// RANK_KING represents a King.
+	Rank_RANK_KING Rank = 13
+	// RANK_SMALL_JOKER represents a Small Joker.
+	Rank_RANK_SMALL_JOKER Rank = 14
+	// RANK_BIG_JOKER represents a Big Joker.
+	Rank_RANK_BIG_JOKER Rank = 15
+)
+
+// Enum value maps for Rank.
+var (
+	Rank_name = map[int32]string{
+		0:  "RANK_UNSPECIFIED",
+		1:  "RANK_ACE",
+		2:  "RANK_TWO",
+		3:  "RANK_THREE",
+		4:  "RANK_FOUR",
+		5:  "RANK_FIVE",
+		6:  "RANK_SIX",
+		7:  "RANK_SEVEN",
+		8:  "RANK_EIGHT",
+		9:  "RANK_NINE",
+		10: "RANK_TEN",
+		11: "RANK_JACK",
+		12: "RANK_QUEEN",
+		13: "RANK_KING",
+		14: "RANK_SMALL_JOKER",
+		15: "RANK_BIG_JOKER",
+	}
+	Rank_value = map[string]int32{
+		"RANK_UNSPECIFIED": 0,
+		"RANK_ACE":         1,
+		"RANK_TWO":         2,
+		"RANK_THREE":       3,
+		"RANK_FOUR":        4,
+		"RANK_FIVE":        5,
+		"RANK_SIX":         6,
+		"RANK_SEVEN":       7,
+		"RANK_EIGHT":       8,
+		"RANK_NINE":        9,
+		"RANK_TEN":         10,
+		"RANK_JACK":        11,
+		"RANK_QUEEN":       12,
+		"RANK_KING":        13,
+		"RANK_SMALL_JOKER": 14,
+		"RANK_BIG_JOKER":   15,
+	}
+)
+
+func (x Rank) Enum() *Rank {
+	p := new(Rank)
+	*p = x
+	return p
+}
+
+func (x Rank) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Rank) Descriptor() protoreflect.EnumDescriptor {
+	return file_card_v1alpha1_card_proto_enumTypes[0].Descriptor()
+}
+
+func (Rank) Type() protoreflect.EnumType {
+	return &file_card_v1alpha1_card_proto_enumTypes[0]
+}
+
+func (x Rank) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Rank.Descriptor instead.
+func (Rank) EnumDescriptor() ([]byte, []int) {
+	return file_card_v1alpha1_card_proto_rawDescGZIP(), []int{0}
+}
+
+// Suit represents the suit of a playing card.
+type Suit int32
+
+const (
+	// SUIT_UNSPECIFIED represents an unspecified suit.
+	Suit_SUIT_UNSPECIFIED Suit = 0
+	// SUIT_HEARTS represents the hearts suit.
+	Suit_SUIT_HEARTS Suit = 1
+	// SUIT_SPADES represents the spades suit.
+	Suit_SUIT_SPADES Suit = 2
+	// SUIT_DIAMONDS represents the diamonds suit.
+	Suit_SUIT_DIAMONDS Suit = 3
+	// SUIT_CLUBS represents the clubs suit.
+	Suit_SUIT_CLUBS Suit = 4
+)
+
+// Enum value maps for Suit.
+var (
+	Suit_name = map[int32]string{
+		0: "SUIT_UNSPECIFIED",
+		1: "SUIT_HEARTS",
+		2: "SUIT_SPADES",
+		3: "SUIT_DIAMONDS",
+		4: "SUIT_CLUBS",
+	}
+	Suit_value = map[string]int32{
+		"SUIT_UNSPECIFIED": 0,
+		"SUIT_HEARTS":      1,
+		"SUIT_SPADES":      2,
+		"SUIT_DIAMONDS":    3,
+		"SUIT_CLUBS":       4,
+	}
+)
+
+func (x Suit) Enum() *Suit {
+	p := new(Suit)
+	*p = x
+	return p
+}
+
+func (x Suit) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Suit) Descriptor() protoreflect.EnumDescriptor {
+	return file_card_v1alpha1_card_proto_enumTypes[1].Descriptor()
+}
+
+func (Suit) Type() protoreflect.EnumType {
+	return &file_card_v1alpha1_card_proto_enumTypes[1]
+}
+
+func (x Suit) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Suit.Descriptor instead.
+func (Suit) EnumDescriptor() ([]byte, []int) {
+	return file_card_v1alpha1_card_proto_rawDescGZIP(), []int{1}
+}
+
 // Card represents a playing card.
 type Card struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// kind of the card, e.g. "hearts", "spades", "diamonds", "clubs".
-	Kind          string `protobuf:"bytes,1,opt,name=kind,proto3" json:"kind,omitempty"`
+	// suit of the card.
+	Suit Suit `protobuf:"varint,1,opt,name=suit,proto3,enum=card.v1alpha1.Suit" json:"suit,omitempty"`
+	// rank of the card.
+	Rank          Rank `protobuf:"varint,2,opt,name=rank,proto3,enum=card.v1alpha1.Rank" json:"rank,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -60,20 +228,57 @@ func (*Card) Descriptor() ([]byte, []int) {
 	return file_card_v1alpha1_card_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *Card) GetKind() string {
+func (x *Card) GetSuit() Suit {
 	if x != nil {
-		return x.Kind
+		return x.Suit
 	}
-	return ""
+	return Suit_SUIT_UNSPECIFIED
+}
+
+func (x *Card) GetRank() Rank {
+	if x != nil {
+		return x.Rank
+	}
+	return Rank_RANK_UNSPECIFIED
 }
 
 var File_card_v1alpha1_card_proto protoreflect.FileDescriptor
 
 const file_card_v1alpha1_card_proto_rawDesc = "" +
 	"\n" +
-	"\x18card/v1alpha1/card.proto\x12\rcard.v1alpha1\"\x1a\n" +
-	"\x04Card\x12\x12\n" +
-	"\x04kind\x18\x01 \x01(\tR\x04kindB.Z,github.com/openpoker-dev/gengo/card/v1alpha1b\x06proto3"
+	"\x18card/v1alpha1/card.proto\x12\rcard.v1alpha1\"X\n" +
+	"\x04Card\x12'\n" +
+	"\x04suit\x18\x01 \x01(\x0e2\x13.card.v1alpha1.SuitR\x04suit\x12'\n" +
+	"\x04rank\x18\x02 \x01(\x0e2\x13.card.v1alpha1.RankR\x04rank*\x89\x02\n" +
+	"\x04Rank\x12\x14\n" +
+	"\x10RANK_UNSPECIFIED\x10\x00\x12\f\n" +
+	"\bRANK_ACE\x10\x01\x12\f\n" +
+	"\bRANK_TWO\x10\x02\x12\x0e\n" +
+	"\n" +
+	"RANK_THREE\x10\x03\x12\r\n" +
+	"\tRANK_FOUR\x10\x04\x12\r\n" +
+	"\tRANK_FIVE\x10\x05\x12\f\n" +
+	"\bRANK_SIX\x10\x06\x12\x0e\n" +
+	"\n" +
+	"RANK_SEVEN\x10\a\x12\x0e\n" +
+	"\n" +
+	"RANK_EIGHT\x10\b\x12\r\n" +
+	"\tRANK_NINE\x10\t\x12\f\n" +
+	"\bRANK_TEN\x10\n" +
+	"\x12\r\n" +
+	"\tRANK_JACK\x10\v\x12\x0e\n" +
+	"\n" +
+	"RANK_QUEEN\x10\f\x12\r\n" +
+	"\tRANK_KING\x10\r\x12\x14\n" +
+	"\x10RANK_SMALL_JOKER\x10\x0e\x12\x12\n" +
+	"\x0eRANK_BIG_JOKER\x10\x0f*a\n" +
+	"\x04Suit\x12\x14\n" +
+	"\x10SUIT_UNSPECIFIED\x10\x00\x12\x0f\n" +
+	"\vSUIT_HEARTS\x10\x01\x12\x0f\n" +
+	"\vSUIT_SPADES\x10\x02\x12\x11\n" +
+	"\rSUIT_DIAMONDS\x10\x03\x12\x0e\n" +
+	"\n" +
+	"SUIT_CLUBS\x10\x04B3Z1github.com/openpoker-dev/gengo/card/v1alpha1;cardb\x06proto3"
 
 var (
 	file_card_v1alpha1_card_proto_rawDescOnce sync.Once
@@ -87,16 +292,21 @@ func file_card_v1alpha1_card_proto_rawDescGZIP() []byte {
 	return file_card_v1alpha1_card_proto_rawDescData
 }
 
+var file_card_v1alpha1_card_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_card_v1alpha1_card_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_card_v1alpha1_card_proto_goTypes = []any{
-	(*Card)(nil), // 0: card.v1alpha1.Card
+	(Rank)(0),    // 0: card.v1alpha1.Rank
+	(Suit)(0),    // 1: card.v1alpha1.Suit
+	(*Card)(nil), // 2: card.v1alpha1.Card
 }
 var file_card_v1alpha1_card_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	1, // 0: card.v1alpha1.Card.suit:type_name -> card.v1alpha1.Suit
+	0, // 1: card.v1alpha1.Card.rank:type_name -> card.v1alpha1.Rank
+	2, // [2:2] is the sub-list for method output_type
+	2, // [2:2] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_card_v1alpha1_card_proto_init() }
@@ -109,13 +319,14 @@ func file_card_v1alpha1_card_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_card_v1alpha1_card_proto_rawDesc), len(file_card_v1alpha1_card_proto_rawDesc)),
-			NumEnums:      0,
+			NumEnums:      2,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           file_card_v1alpha1_card_proto_goTypes,
 		DependencyIndexes: file_card_v1alpha1_card_proto_depIdxs,
+		EnumInfos:         file_card_v1alpha1_card_proto_enumTypes,
 		MessageInfos:      file_card_v1alpha1_card_proto_msgTypes,
 	}.Build()
 	File_card_v1alpha1_card_proto = out.File

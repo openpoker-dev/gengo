@@ -4,7 +4,7 @@
 // - protoc             (unknown)
 // source: card/v1alpha1/card_api.proto
 
-package v1alpha1
+package card
 
 import (
 	context "context"
