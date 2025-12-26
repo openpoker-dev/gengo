@@ -46,6 +46,8 @@ const (
 	GameServiceGetGameStateProcedure = "/game.v1alpha1.GameService/GetGameState"
 	// GameServiceWatchGameProcedure is the fully-qualified name of the GameService's WatchGame RPC.
 	GameServiceWatchGameProcedure = "/game.v1alpha1.GameService/WatchGame"
+	// GameServiceKickPlayerProcedure is the fully-qualified name of the GameService's KickPlayer RPC.
+	GameServiceKickPlayerProcedure = "/game.v1alpha1.GameService/KickPlayer"
 )
 
 // GameServiceClient is a client for the game.v1alpha1.GameService service.
@@ -62,6 +64,9 @@ type GameServiceClient interface {
 	GetGameState(context.Context, *v1alpha1.GetGameStateRequest) (*v1alpha1.GetGameStateResponse, error)
 	// WatchGame streams game updates to the client in real-time.
 	WatchGame(context.Context, *v1alpha1.WatchGameRequest) (*connect.ServerStreamForClient[v1alpha1.WatchGameResponse], error)
+	// KickPlayer allows the host to remove a player (or bot) from the game.
+	// This is only allowed when the game is in "Waiting" or "Finished" status.
+	KickPlayer(context.Context, *v1alpha1.KickPlayerRequest) (*v1alpha1.KickPlayerResponse, error)
 }
 
 // NewGameServiceClient constructs a client for the game.v1alpha1.GameService service. By default,
@@ -111,6 +116,12 @@ func NewGameServiceClient(httpClient connect.HTTPClient, baseURL string, opts ..
 			connect.WithSchema(gameServiceMethods.ByName("WatchGame")),
 			connect.WithClientOptions(opts...),
 		),
+		kickPlayer: connect.NewClient[v1alpha1.KickPlayerRequest, v1alpha1.KickPlayerResponse](
+			httpClient,
+			baseURL+GameServiceKickPlayerProcedure,
+			connect.WithSchema(gameServiceMethods.ByName("KickPlayer")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
@@ -122,6 +133,7 @@ type gameServiceClient struct {
 	playAction   *connect.Client[v1alpha1.PlayActionRequest, v1alpha1.PlayActionResponse]
 	getGameState *connect.Client[v1alpha1.GetGameStateRequest, v1alpha1.GetGameStateResponse]
 	watchGame    *connect.Client[v1alpha1.WatchGameRequest, v1alpha1.WatchGameResponse]
+	kickPlayer   *connect.Client[v1alpha1.KickPlayerRequest, v1alpha1.KickPlayerResponse]
 }
 
 // CreateGame calls game.v1alpha1.GameService.CreateGame.
@@ -174,6 +186,15 @@ func (c *gameServiceClient) WatchGame(ctx context.Context, req *v1alpha1.WatchGa
 	return c.watchGame.CallServerStream(ctx, connect.NewRequest(req))
 }
 
+// KickPlayer calls game.v1alpha1.GameService.KickPlayer.
+func (c *gameServiceClient) KickPlayer(ctx context.Context, req *v1alpha1.KickPlayerRequest) (*v1alpha1.KickPlayerResponse, error) {
+	response, err := c.kickPlayer.CallUnary(ctx, connect.NewRequest(req))
+	if response != nil {
+		return response.Msg, err
+	}
+	return nil, err
+}
+
 // GameServiceHandler is an implementation of the game.v1alpha1.GameService service.
 type GameServiceHandler interface {
 	// CreateGame creates a new game room.
@@ -188,6 +209,9 @@ type GameServiceHandler interface {
 	GetGameState(context.Context, *v1alpha1.GetGameStateRequest) (*v1alpha1.GetGameStateResponse, error)
 	// WatchGame streams game updates to the client in real-time.
 	WatchGame(context.Context, *v1alpha1.WatchGameRequest, *connect.ServerStream[v1alpha1.WatchGameResponse]) error
+	// KickPlayer allows the host to remove a player (or bot) from the game.
+	// This is only allowed when the game is in "Waiting" or "Finished" status.
+	KickPlayer(context.Context, *v1alpha1.KickPlayerRequest) (*v1alpha1.KickPlayerResponse, error)
 }
 
 // NewGameServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -233,6 +257,12 @@ func NewGameServiceHandler(svc GameServiceHandler, opts ...connect.HandlerOption
 		connect.WithSchema(gameServiceMethods.ByName("WatchGame")),
 		connect.WithHandlerOptions(opts...),
 	)
+	gameServiceKickPlayerHandler := connect.NewUnaryHandlerSimple(
+		GameServiceKickPlayerProcedure,
+		svc.KickPlayer,
+		connect.WithSchema(gameServiceMethods.ByName("KickPlayer")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/game.v1alpha1.GameService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case GameServiceCreateGameProcedure:
@@ -247,6 +277,8 @@ func NewGameServiceHandler(svc GameServiceHandler, opts ...connect.HandlerOption
 			gameServiceGetGameStateHandler.ServeHTTP(w, r)
 		case GameServiceWatchGameProcedure:
 			gameServiceWatchGameHandler.ServeHTTP(w, r)
+		case GameServiceKickPlayerProcedure:
+			gameServiceKickPlayerHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -278,4 +310,8 @@ func (UnimplementedGameServiceHandler) GetGameState(context.Context, *v1alpha1.G
 
 func (UnimplementedGameServiceHandler) WatchGame(context.Context, *v1alpha1.WatchGameRequest, *connect.ServerStream[v1alpha1.WatchGameResponse]) error {
 	return connect.NewError(connect.CodeUnimplemented, errors.New("game.v1alpha1.GameService.WatchGame is not implemented"))
+}
+
+func (UnimplementedGameServiceHandler) KickPlayer(context.Context, *v1alpha1.KickPlayerRequest) (*v1alpha1.KickPlayerResponse, error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("game.v1alpha1.GameService.KickPlayer is not implemented"))
 }

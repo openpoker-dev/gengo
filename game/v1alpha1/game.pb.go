@@ -1020,6 +1020,117 @@ func (x *PlayerState) GetIsTurn() bool {
 	return false
 }
 
+// KickPlayerRequest is the request to kick a player from the game.
+type KickPlayerRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The ID of the game
+	GameId string `protobuf:"bytes,1,opt,name=game_id,json=gameId,proto3" json:"game_id,omitempty"`
+	// The ID of the player to be kicked (can be a bot ID, e.g., "BOT_1")
+	PlayerId string `protobuf:"bytes,2,opt,name=player_id,json=playerId,proto3" json:"player_id,omitempty"`
+	// The ID of the player performing the kick (must be the Host)
+	KickerId      string `protobuf:"bytes,3,opt,name=kicker_id,json=kickerId,proto3" json:"kicker_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *KickPlayerRequest) Reset() {
+	*x = KickPlayerRequest{}
+	mi := &file_game_v1alpha1_game_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *KickPlayerRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*KickPlayerRequest) ProtoMessage() {}
+
+func (x *KickPlayerRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_game_v1alpha1_game_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use KickPlayerRequest.ProtoReflect.Descriptor instead.
+func (*KickPlayerRequest) Descriptor() ([]byte, []int) {
+	return file_game_v1alpha1_game_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *KickPlayerRequest) GetGameId() string {
+	if x != nil {
+		return x.GameId
+	}
+	return ""
+}
+
+func (x *KickPlayerRequest) GetPlayerId() string {
+	if x != nil {
+		return x.PlayerId
+	}
+	return ""
+}
+
+func (x *KickPlayerRequest) GetKickerId() string {
+	if x != nil {
+		return x.KickerId
+	}
+	return ""
+}
+
+// KickPlayerResponse is the response after kicking a player.
+type KickPlayerResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Returns the updated game state immediately after kicking
+	// This is optional, but helpful for the client to update UI instantly
+	State         *GetGameStateResponse `protobuf:"bytes,1,opt,name=state,proto3" json:"state,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *KickPlayerResponse) Reset() {
+	*x = KickPlayerResponse{}
+	mi := &file_game_v1alpha1_game_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *KickPlayerResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*KickPlayerResponse) ProtoMessage() {}
+
+func (x *KickPlayerResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_game_v1alpha1_game_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use KickPlayerResponse.ProtoReflect.Descriptor instead.
+func (*KickPlayerResponse) Descriptor() ([]byte, []int) {
+	return file_game_v1alpha1_game_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *KickPlayerResponse) GetState() *GetGameStateResponse {
+	if x != nil {
+		return x.State
+	}
+	return nil
+}
+
 var File_game_v1alpha1_game_proto protoreflect.FileDescriptor
 
 const file_game_v1alpha1_game_proto_rawDesc = "" +
@@ -1079,7 +1190,13 @@ const file_game_v1alpha1_game_proto_rawDesc = "" +
 	"\x06folded\x18\x04 \x01(\bR\x06folded\x122\n" +
 	"\n" +
 	"hole_cards\x18\x05 \x03(\v2\x13.card.v1alpha1.CardR\tholeCards\x12\x17\n" +
-	"\ais_turn\x18\x06 \x01(\bR\x06isTurn*\x9b\x01\n" +
+	"\ais_turn\x18\x06 \x01(\bR\x06isTurn\"f\n" +
+	"\x11KickPlayerRequest\x12\x17\n" +
+	"\agame_id\x18\x01 \x01(\tR\x06gameId\x12\x1b\n" +
+	"\tplayer_id\x18\x02 \x01(\tR\bplayerId\x12\x1b\n" +
+	"\tkicker_id\x18\x03 \x01(\tR\bkickerId\"O\n" +
+	"\x12KickPlayerResponse\x129\n" +
+	"\x05state\x18\x01 \x01(\v2#.game.v1alpha1.GetGameStateResponseR\x05state*\x9b\x01\n" +
 	"\n" +
 	"ActionType\x12\x1b\n" +
 	"\x17ACTION_TYPE_UNSPECIFIED\x10\x00\x12\x14\n" +
@@ -1101,7 +1218,7 @@ const file_game_v1alpha1_game_proto_rawDesc = "" +
 	"\x0fGAME_ROUND_FLOP\x10\x03\x12\x13\n" +
 	"\x0fGAME_ROUND_TURN\x10\x04\x12\x14\n" +
 	"\x10GAME_ROUND_RIVER\x10\x05\x12\x17\n" +
-	"\x13GAME_ROUND_SHOWDOWN\x10\x062\xfb\x03\n" +
+	"\x13GAME_ROUND_SHOWDOWN\x10\x062\xce\x04\n" +
 	"\vGameService\x12Q\n" +
 	"\n" +
 	"CreateGame\x12 .game.v1alpha1.CreateGameRequest\x1a!.game.v1alpha1.CreateGameResponse\x12K\n" +
@@ -1110,7 +1227,9 @@ const file_game_v1alpha1_game_proto_rawDesc = "" +
 	"\n" +
 	"PlayAction\x12 .game.v1alpha1.PlayActionRequest\x1a!.game.v1alpha1.PlayActionResponse\x12W\n" +
 	"\fGetGameState\x12\".game.v1alpha1.GetGameStateRequest\x1a#.game.v1alpha1.GetGameStateResponse\x12P\n" +
-	"\tWatchGame\x12\x1f.game.v1alpha1.WatchGameRequest\x1a .game.v1alpha1.WatchGameResponse0\x01B5Z3github.com/openpoker-dev/gengo/game/v1alpha1;gamepbb\x06proto3"
+	"\tWatchGame\x12\x1f.game.v1alpha1.WatchGameRequest\x1a .game.v1alpha1.WatchGameResponse0\x01\x12Q\n" +
+	"\n" +
+	"KickPlayer\x12 .game.v1alpha1.KickPlayerRequest\x1a!.game.v1alpha1.KickPlayerResponseB5Z3github.com/openpoker-dev/gengo/game/v1alpha1;gamepbb\x06proto3"
 
 var (
 	file_game_v1alpha1_game_proto_rawDescOnce sync.Once
@@ -1125,7 +1244,7 @@ func file_game_v1alpha1_game_proto_rawDescGZIP() []byte {
 }
 
 var file_game_v1alpha1_game_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
-var file_game_v1alpha1_game_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
+var file_game_v1alpha1_game_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
 var file_game_v1alpha1_game_proto_goTypes = []any{
 	(ActionType)(0),               // 0: game.v1alpha1.ActionType
 	(GameStatus)(0),               // 1: game.v1alpha1.GameStatus
@@ -1143,35 +1262,40 @@ var file_game_v1alpha1_game_proto_goTypes = []any{
 	(*WatchGameRequest)(nil),      // 13: game.v1alpha1.WatchGameRequest
 	(*WatchGameResponse)(nil),     // 14: game.v1alpha1.WatchGameResponse
 	(*PlayerState)(nil),           // 15: game.v1alpha1.PlayerState
-	(*v1alpha1.Card)(nil),         // 16: card.v1alpha1.Card
-	(*timestamppb.Timestamp)(nil), // 17: google.protobuf.Timestamp
+	(*KickPlayerRequest)(nil),     // 16: game.v1alpha1.KickPlayerRequest
+	(*KickPlayerResponse)(nil),    // 17: game.v1alpha1.KickPlayerResponse
+	(*v1alpha1.Card)(nil),         // 18: card.v1alpha1.Card
+	(*timestamppb.Timestamp)(nil), // 19: google.protobuf.Timestamp
 }
 var file_game_v1alpha1_game_proto_depIdxs = []int32{
 	0,  // 0: game.v1alpha1.PlayActionRequest.action_type:type_name -> game.v1alpha1.ActionType
 	1,  // 1: game.v1alpha1.GetGameStateResponse.status:type_name -> game.v1alpha1.GameStatus
 	2,  // 2: game.v1alpha1.GetGameStateResponse.current_round:type_name -> game.v1alpha1.GameRound
-	16, // 3: game.v1alpha1.GetGameStateResponse.community_cards:type_name -> card.v1alpha1.Card
+	18, // 3: game.v1alpha1.GetGameStateResponse.community_cards:type_name -> card.v1alpha1.Card
 	15, // 4: game.v1alpha1.GetGameStateResponse.players:type_name -> game.v1alpha1.PlayerState
-	17, // 5: game.v1alpha1.GetGameStateResponse.action_deadline:type_name -> google.protobuf.Timestamp
+	19, // 5: game.v1alpha1.GetGameStateResponse.action_deadline:type_name -> google.protobuf.Timestamp
 	12, // 6: game.v1alpha1.WatchGameResponse.state:type_name -> game.v1alpha1.GetGameStateResponse
-	16, // 7: game.v1alpha1.PlayerState.hole_cards:type_name -> card.v1alpha1.Card
-	3,  // 8: game.v1alpha1.GameService.CreateGame:input_type -> game.v1alpha1.CreateGameRequest
-	5,  // 9: game.v1alpha1.GameService.JoinGame:input_type -> game.v1alpha1.JoinGameRequest
-	7,  // 10: game.v1alpha1.GameService.StartGame:input_type -> game.v1alpha1.StartGameRequest
-	9,  // 11: game.v1alpha1.GameService.PlayAction:input_type -> game.v1alpha1.PlayActionRequest
-	11, // 12: game.v1alpha1.GameService.GetGameState:input_type -> game.v1alpha1.GetGameStateRequest
-	13, // 13: game.v1alpha1.GameService.WatchGame:input_type -> game.v1alpha1.WatchGameRequest
-	4,  // 14: game.v1alpha1.GameService.CreateGame:output_type -> game.v1alpha1.CreateGameResponse
-	6,  // 15: game.v1alpha1.GameService.JoinGame:output_type -> game.v1alpha1.JoinGameResponse
-	8,  // 16: game.v1alpha1.GameService.StartGame:output_type -> game.v1alpha1.StartGameResponse
-	10, // 17: game.v1alpha1.GameService.PlayAction:output_type -> game.v1alpha1.PlayActionResponse
-	12, // 18: game.v1alpha1.GameService.GetGameState:output_type -> game.v1alpha1.GetGameStateResponse
-	14, // 19: game.v1alpha1.GameService.WatchGame:output_type -> game.v1alpha1.WatchGameResponse
-	14, // [14:20] is the sub-list for method output_type
-	8,  // [8:14] is the sub-list for method input_type
-	8,  // [8:8] is the sub-list for extension type_name
-	8,  // [8:8] is the sub-list for extension extendee
-	0,  // [0:8] is the sub-list for field type_name
+	18, // 7: game.v1alpha1.PlayerState.hole_cards:type_name -> card.v1alpha1.Card
+	12, // 8: game.v1alpha1.KickPlayerResponse.state:type_name -> game.v1alpha1.GetGameStateResponse
+	3,  // 9: game.v1alpha1.GameService.CreateGame:input_type -> game.v1alpha1.CreateGameRequest
+	5,  // 10: game.v1alpha1.GameService.JoinGame:input_type -> game.v1alpha1.JoinGameRequest
+	7,  // 11: game.v1alpha1.GameService.StartGame:input_type -> game.v1alpha1.StartGameRequest
+	9,  // 12: game.v1alpha1.GameService.PlayAction:input_type -> game.v1alpha1.PlayActionRequest
+	11, // 13: game.v1alpha1.GameService.GetGameState:input_type -> game.v1alpha1.GetGameStateRequest
+	13, // 14: game.v1alpha1.GameService.WatchGame:input_type -> game.v1alpha1.WatchGameRequest
+	16, // 15: game.v1alpha1.GameService.KickPlayer:input_type -> game.v1alpha1.KickPlayerRequest
+	4,  // 16: game.v1alpha1.GameService.CreateGame:output_type -> game.v1alpha1.CreateGameResponse
+	6,  // 17: game.v1alpha1.GameService.JoinGame:output_type -> game.v1alpha1.JoinGameResponse
+	8,  // 18: game.v1alpha1.GameService.StartGame:output_type -> game.v1alpha1.StartGameResponse
+	10, // 19: game.v1alpha1.GameService.PlayAction:output_type -> game.v1alpha1.PlayActionResponse
+	12, // 20: game.v1alpha1.GameService.GetGameState:output_type -> game.v1alpha1.GetGameStateResponse
+	14, // 21: game.v1alpha1.GameService.WatchGame:output_type -> game.v1alpha1.WatchGameResponse
+	17, // 22: game.v1alpha1.GameService.KickPlayer:output_type -> game.v1alpha1.KickPlayerResponse
+	16, // [16:23] is the sub-list for method output_type
+	9,  // [9:16] is the sub-list for method input_type
+	9,  // [9:9] is the sub-list for extension type_name
+	9,  // [9:9] is the sub-list for extension extendee
+	0,  // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_game_v1alpha1_game_proto_init() }
@@ -1185,7 +1309,7 @@ func file_game_v1alpha1_game_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_game_v1alpha1_game_proto_rawDesc), len(file_game_v1alpha1_game_proto_rawDesc)),
 			NumEnums:      3,
-			NumMessages:   13,
+			NumMessages:   15,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

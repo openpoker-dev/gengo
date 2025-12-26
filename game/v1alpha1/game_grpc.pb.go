@@ -25,6 +25,7 @@ const (
 	GameService_PlayAction_FullMethodName   = "/game.v1alpha1.GameService/PlayAction"
 	GameService_GetGameState_FullMethodName = "/game.v1alpha1.GameService/GetGameState"
 	GameService_WatchGame_FullMethodName    = "/game.v1alpha1.GameService/WatchGame"
+	GameService_KickPlayer_FullMethodName   = "/game.v1alpha1.GameService/KickPlayer"
 )
 
 // GameServiceClient is the client API for GameService service.
@@ -45,6 +46,9 @@ type GameServiceClient interface {
 	GetGameState(ctx context.Context, in *GetGameStateRequest, opts ...grpc.CallOption) (*GetGameStateResponse, error)
 	// WatchGame streams game updates to the client in real-time.
 	WatchGame(ctx context.Context, in *WatchGameRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchGameResponse], error)
+	// KickPlayer allows the host to remove a player (or bot) from the game.
+	// This is only allowed when the game is in "Waiting" or "Finished" status.
+	KickPlayer(ctx context.Context, in *KickPlayerRequest, opts ...grpc.CallOption) (*KickPlayerResponse, error)
 }
 
 type gameServiceClient struct {
@@ -124,6 +128,16 @@ func (c *gameServiceClient) WatchGame(ctx context.Context, in *WatchGameRequest,
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type GameService_WatchGameClient = grpc.ServerStreamingClient[WatchGameResponse]
 
+func (c *gameServiceClient) KickPlayer(ctx context.Context, in *KickPlayerRequest, opts ...grpc.CallOption) (*KickPlayerResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(KickPlayerResponse)
+	err := c.cc.Invoke(ctx, GameService_KickPlayer_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // GameServiceServer is the server API for GameService service.
 // All implementations should embed UnimplementedGameServiceServer
 // for forward compatibility.
@@ -142,6 +156,9 @@ type GameServiceServer interface {
 	GetGameState(context.Context, *GetGameStateRequest) (*GetGameStateResponse, error)
 	// WatchGame streams game updates to the client in real-time.
 	WatchGame(*WatchGameRequest, grpc.ServerStreamingServer[WatchGameResponse]) error
+	// KickPlayer allows the host to remove a player (or bot) from the game.
+	// This is only allowed when the game is in "Waiting" or "Finished" status.
+	KickPlayer(context.Context, *KickPlayerRequest) (*KickPlayerResponse, error)
 }
 
 // UnimplementedGameServiceServer should be embedded to have
@@ -168,6 +185,9 @@ func (UnimplementedGameServiceServer) GetGameState(context.Context, *GetGameStat
 }
 func (UnimplementedGameServiceServer) WatchGame(*WatchGameRequest, grpc.ServerStreamingServer[WatchGameResponse]) error {
 	return status.Error(codes.Unimplemented, "method WatchGame not implemented")
+}
+func (UnimplementedGameServiceServer) KickPlayer(context.Context, *KickPlayerRequest) (*KickPlayerResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method KickPlayer not implemented")
 }
 func (UnimplementedGameServiceServer) testEmbeddedByValue() {}
 
@@ -290,6 +310,24 @@ func _GameService_WatchGame_Handler(srv interface{}, stream grpc.ServerStream) e
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type GameService_WatchGameServer = grpc.ServerStreamingServer[WatchGameResponse]
 
+func _GameService_KickPlayer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(KickPlayerRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GameServiceServer).KickPlayer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GameService_KickPlayer_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GameServiceServer).KickPlayer(ctx, req.(*KickPlayerRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // GameService_ServiceDesc is the grpc.ServiceDesc for GameService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -316,6 +354,10 @@ var GameService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetGameState",
 			Handler:    _GameService_GetGameState_Handler,
+		},
+		{
+			MethodName: "KickPlayer",
+			Handler:    _GameService_KickPlayer_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
