@@ -2,7 +2,7 @@
 //
 // Source: card/v1alpha1/card_api.proto
 
-package cardconnect
+package cardpbconnect
 
 import (
 	connect "connectrpc.com/connect"

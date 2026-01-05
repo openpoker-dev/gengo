@@ -4,7 +4,7 @@
 // 	protoc        (unknown)
 // source: card/v1alpha1/card.proto
 
-package card
+package cardpb
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -450,7 +450,7 @@ const file_card_v1alpha1_card_proto_rawDesc = "" +
 	"\x1cHAND_CATEGORY_FOUR_OF_A_KIND\x10\b\x12 \n" +
 	"\x1cHAND_CATEGORY_STRAIGHT_FLUSH\x10\t\x12\x1d\n" +
 	"\x19HAND_CATEGORY_ROYAL_FLUSH\x10\n" +
-	"B3Z1github.com/openpoker-dev/gengo/card/v1alpha1;cardb\x06proto3"
+	"B5Z3github.com/openpoker-dev/gengo/card/v1alpha1;cardpbb\x06proto3"
 
 var (
 	file_card_v1alpha1_card_proto_rawDescOnce sync.Once
